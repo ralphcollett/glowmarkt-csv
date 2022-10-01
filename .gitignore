@@ -1,0 +1,3 @@
+run.sh
+*.csv
+node_modules
