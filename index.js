@@ -6,6 +6,7 @@ const fs = require('fs');
 const startDate = new Date(2021, 4, 1, 9, 0, 0, 0);
 const endDate = new Date();
 const arguments = process.argv;
+const resourceClassifiers = ['gas.consumption', 'electricity.consumption'];
 
 const instance = axios.create({
     headers: {
@@ -80,9 +81,11 @@ function resources(token, applicationId) {
             'applicationId': applicationId
         }
     }).then(function (response) {
-        response.data.forEach(resourceData =>
-            resource(resourceData['resourceId'], resourceData['classifier'], token, applicationId)
-        )
+        response.data.filter(resourceData => resourceClassifiers.includes(resourceData['classifier']))
+            .forEach(resourceData => {
+                return resource(resourceData['resourceId'], resourceData['classifier'], token, applicationId);
+                }
+            )
     }).catch(function (error) {
         console.error(error);
     });
