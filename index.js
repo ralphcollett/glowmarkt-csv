@@ -1,5 +1,5 @@
 const {format: formatCSV} = require('@fast-csv/format');
-const {dateRange, format, addDays} = require("./app/dates");
+const {dateRange, format, addDays, minimum} = require("./app/dates");
 const axios = require('axios').default;
 const fs = require('fs');
 
@@ -38,7 +38,7 @@ function resource(resourceId, resourceName, token, applicationId) {
     Promise.all(
         dateRange(startDate, endDate, 10).map(date => {
                 const from = format(date);
-                const to = format(addDays(date, 10));
+                const to = format(minimum(addDays(date, 10), new Date()));
                 return instance.get("https://api.glowmarkt.com/api/v0-1/resource/" + resourceId +
                     "/readings", {
                     headers: {

@@ -18,6 +18,11 @@ function format(date) {
     return date.toISOString().slice(0, 19);
 }
 
+function minimum(date1, date2) {
+    return (date1.getTime() < date2.getTime()) ? date1 : date2;
+}
+
 exports.dateRange = dateRange;
 exports.format = format;
 exports.addDays = addDays;
+exports.minimum = minimum;
