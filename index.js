@@ -80,11 +80,9 @@ function resources(token, applicationId) {
             'applicationId': applicationId
         }
     }).then(function (response) {
-        let data = response.data;
-        let gasResource = data.find(resources => resources.name === 'gas consumption');
-        let electricityResource = data.find(resources => resources.name === 'electricity consumption');
-        resource(gasResource.resourceId, gasResource.classifier, token, applicationId);
-        resource(electricityResource.resourceId, electricityResource.classifier, token, applicationId);
+        response.data.forEach(resourceData =>
+            resource(resourceData['resourceId'], resourceData['classifier'], token, applicationId)
+        )
     }).catch(function (error) {
         console.error(error);
     });
